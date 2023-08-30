@@ -24,9 +24,11 @@ The third is for buying,you can buy the nfts anothers listed.
   For Apis of contract,We can use Remix to complie the contracts.
 
 # Step3:Create the Stream hook
-  To process this step we should login in the Moralis. creating the Stream hook is for listening to events of contract.(Of course you can create the Stream hook via coding,but here we directly create on the website).click the Stream tab then create new Stream,this the creation page you need fill the address and abi of NftMarketplace 
+  To process this step we should login in the Moralis. creating the Stream hook is for listening to events of contract(Of course you can create the Stream hook via coding,but here we directly create on the website).click the Stream tab then create new Stream,this the creation page you need fill the address and abi of NftMarketplace 
 and choose the all events needing to listen to.You can refer the video below.
 
 # Step4:Run Frontend server
+  Create a .env file and copy the content of [.env.example](https://github.com/phanker/NFT-MARKETPLACE/blob/main/nft-market-frontend/.env.example),an then revise the value for properties of .env file.[NEXT_PUBLIC_SERVER_URL](https://github.com/phanker/NFT-MARKETPLACE/blob/main/nft-market-frontend/.env.example#L1) is the url of your Backend server.[NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID](NEXT_PUBLIC_SERVER_URL](https://github.com/phanker/NFT-MARKETPLACE/blob/main/nft-market-frontend/.env.example#L2) is your projectId of WalletConnect, you should login and get your projectId from [WalletConnect](https://cloud.walletconnect.com/) if you didn't have logined [WalletConnect](https://cloud.walletconnect.com/).
+
 
 
