@@ -17,7 +17,7 @@ The third is for buying,you can buy the nfts anothers listed.
 
 ## Quick Start
 
-# Step1:Start Backend server
+# Step1:Run Backend server
   We need to run the Backend server at first.We need fill the apikey of Moralis in the application.properties(https://github.com/phanker/NFT-MARKETPLACE/blob/main/nft-market-backend/src/main/resources/application.properties) of Backend server instead example value of MORALIS_API_KEY.Please access to Moralis(https://admin.moralis.io/) then regirster if you don't have the apikey.after that.Like this we can run with the Backend server.
 
 # Step2:Complie the contracts for Apis of contract
@@ -27,6 +27,6 @@ The third is for buying,you can buy the nfts anothers listed.
   To process this step we should login in the Moralis. creating the Stream hook is for listening to events of contract.(Of course you can create the Stream hook via coding,but here we directly create on the website).click the Stream tab then create new Stream,this the creation page you need fill the address and abi of NftMarketplace 
 and choose the all events needing to listen to.You can refer the video below.
 
-# Step4:Run with the frontend server
+# Step4:Run Frontend server
 
 
