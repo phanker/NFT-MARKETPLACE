@@ -12,6 +12,7 @@ import { UpdateListingModal } from "./UpdateListingProps";
 import { useAccount, useChainId, useContractWrite } from "wagmi";
 import { ethers } from "ethers";
 import api from "@/utils/api";
+import { waitForTransaction } from "@wagmi/core";
 
 const truncateStr = (fullStr: string, strLen: number) => {
   if (fullStr.length <= strLen) return fullStr;
@@ -34,12 +35,14 @@ export default function NFTBox({
   tokenId,
   marketPlaceAddress,
   seller,
+  getListedNfts,
 }: {
   price: string;
   nftAddress: string;
   tokenId: number;
   marketPlaceAddress: string;
   seller: string;
+  getListedNfts: Function;
 }) {
   const [imageURI, setImageURI] = useState("");
   const [tokenName, setTokenName] = useState("");
@@ -66,18 +69,18 @@ export default function NFTBox({
     setTokenDescription(metadata.description);
   }
 
-  const handleNewNotification = (
-    type: "success",
-    icon?: React.ReactElement
-  ) => {
-    dispatch({
-      type,
-      message: "Somebody messaged you",
-      title: "New Notification",
-      icon,
-      position: "topR",
-    });
-  };
+  // const handleNewNotification = (
+  //   type: "success",
+  //   icon?: React.ReactElement
+  // ) => {
+  //   dispatch({
+  //     type,
+  //     message: "Somebody messaged you",
+  //     title: "New Notification",
+  //     icon,
+  //     position: "topR",
+  //   });
+  // };
   useEffect(() => {
     if (isConnected) {
       updateUI();
@@ -99,14 +102,35 @@ export default function NFTBox({
     onError(error) {
       console.log(error);
     },
-    onSuccess() {
-      dispatch({
-        type: "success",
-        message: "Item bought!",
-        title: "Item Bought",
-        position: "topR",
-      });
+    async onSettled(hash, error, variables, context) {
+      if (hash) {
+        const recriptTx = await waitForTransaction(hash);
+        dispatch({
+          type: "success",
+          message: "Item bought!",
+          title: "Item Bought",
+          position: "topR",
+        });
+        if (recriptTx.status === "success") {
+          await getListedNfts();
+        }
+      } else {
+        dispatch({
+          type: "error",
+          message: "Item bought Fail!",
+          title: "Item Bought Fail",
+          position: "topR",
+        });
+      }
     },
+    // onSuccess() {
+    //   dispatch({
+    //     type: "success",
+    //     message: "Item bought!",
+    //     title: "Item Bought",
+    //     position: "topR",
+    //   });
+    // },
   });
 
   const handleCardClick = async () => {
@@ -132,6 +156,7 @@ export default function NFTBox({
               imageURI={imageURI}
               nftMarketPlaceAbi={nftMarketPlaceAbi}
               currentPrice={ethers.utils.formatUnits(price, "ether")}
+              refreshNftPage={getListedNfts}
             />
             <Card
               title={tokenName}

@@ -11,6 +11,7 @@ import { ethers } from "ethers";
 import Image from "next/image";
 import { useContractWrite, useAccount } from "wagmi";
 import { Narrow, Abi } from "abitype";
+import { waitForTransaction } from "@wagmi/core";
 
 export interface UpdateListingProps {
   isVisible: boolean;
@@ -21,6 +22,7 @@ export interface UpdateListingProps {
   tokenId: number;
   imageURI: string | undefined;
   currentPrice?: string | undefined;
+  refreshNftPage: Function;
 }
 
 export const UpdateListingModal = ({
@@ -32,31 +34,54 @@ export const UpdateListingModal = ({
   tokenId,
   imageURI,
   currentPrice,
+  refreshNftPage,
 }: UpdateListingProps) => {
   const dispatch = useNotification();
   const { address } = useAccount();
   const [priceToUpdateListingWith, setPriceToUpdateListingWith] = useState<
     string | undefined
   >();
-  const handleUpdateListingSuccess = () => {
-    dispatch({
-      type: "success",
-      message: "Listing updated successfully",
-      title: "Listing Updated - please refresh",
-      position: "topR",
-    });
-    onClose && onClose();
-    setPriceToUpdateListingWith("0");
+  const handleUpdateListingSuccess = async (hash: any) => {
+    const receiptTx = await waitForTransaction(hash);
+    if (receiptTx.status === "success") {
+      dispatch({
+        type: "success",
+        message: "Listing updated successfully",
+        title: "Listing Updated - please refresh",
+        position: "topR",
+      });
+      onClose && onClose();
+      setPriceToUpdateListingWith("0");
+      await refreshNftPage();
+    } else {
+      dispatch({
+        type: "error",
+        message: "Listing updated unsuccessfully",
+        title: "Listing updated unsuccessfully",
+        position: "topR",
+      });
+    }
   };
 
-  const handleCancelListingSuccess = () => {
-    dispatch({
-      type: "success",
-      message: "Listing canceled successfully",
-      title: "Listing Canceled",
-      position: "topR",
-    });
-    onClose && onClose();
+  const handleCancelListingSuccess = async (hash: any) => {
+    const receiptTx = await waitForTransaction(hash);
+    if (receiptTx.status === "success") {
+      dispatch({
+        type: "success",
+        message: "Listing canceled successfully",
+        title: "Listing Canceled",
+        position: "topR",
+      });
+      onClose && onClose();
+      await refreshNftPage();
+    } else {
+      dispatch({
+        type: "error",
+        message: "Listing canceled unsuccessfully",
+        title: "Listing canceled unsuccessfully",
+        position: "topR",
+      });
+    }
   };
 
   const {
@@ -73,8 +98,8 @@ export const UpdateListingModal = ({
     onError(error) {
       console.log(error);
     },
-    onSuccess() {
-      handleCancelListingSuccess();
+    async onSuccess(hash) {
+      await handleCancelListingSuccess(hash);
     },
   });
 
@@ -96,8 +121,17 @@ export const UpdateListingModal = ({
     onError(error) {
       console.log(error);
     },
-    onSuccess() {
-      handleUpdateListingSuccess();
+    async onSettled(hash) {
+      if (hash) {
+        await handleUpdateListingSuccess(hash);
+      } else {
+        dispatch({
+          type: "error",
+          message: "Listing updated unsuccessfully",
+          title: "Listing updated unsuccessfully",
+          position: "topR",
+        });
+      }
     },
   });
 

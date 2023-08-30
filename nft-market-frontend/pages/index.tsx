@@ -10,6 +10,15 @@ export default function Page() {
   const [isWeb3Enabled, setIsWeb3Enabled] = useState(false);
   const { address } = useAccount();
   const chainId = useChainId();
+  const getListedNfts = async () => {
+    const response = await Api.getListedNftPage(0, 10);
+    var resData = response.data;
+    if (resData.content && resData.content.length > 0) {
+      setListedNfts(resData.content);
+    } else {
+      setListedNfts([]);
+    }
+  };
   useEffect(() => {
     //@ts-ignore
     if (typeof window.ethereum !== "undefined") {
@@ -21,16 +30,10 @@ export default function Page() {
     }
     if (address) {
       //Get all listed ntfs
-      const getListedNfts = async () => {
-        const response = await Api.getListedNftPage(0, 10);
-        var resData = response.data;
-        if (resData.content && resData.content.length > 0) {
-          setListedNfts(resData.content);
-        }
-      };
       getListedNfts();
     }
   }, [address, chainId]);
+
   return (
     <div className="container mx-auto">
       <h1 className="py-4 px-4 font-bold text-2xl">Recently Listed</h1>
@@ -50,6 +53,7 @@ export default function Page() {
                     marketPlaceAddress={marketPlaceAddress}
                     seller={seller}
                     key={`${nftAddress}${tokenId}`}
+                    getListedNfts={getListedNfts}
                   />
                 </div>
               );

@@ -23,7 +23,7 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
 
 const { connectors } = getDefaultWallets({
   appName: "My RainbowKit App",
-  projectId: walletConnectProjectId, // Get your project ID from https://cloud.walletconnect.com/
+  projectId: walletConnectProjectId,
   chains,
 });
 
