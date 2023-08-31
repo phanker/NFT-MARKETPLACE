@@ -32,7 +32,7 @@ and choose the all events needing to listen to.You can refer to the videos below
 ![ezgif com-video-to-gif (3)](https://github.com/phanker/NFT-MARKETPLACE/assets/38907533/471bc0d4-104e-4fbb-9705-56d966381a8b)
 
 ### Step4:Run Frontend server
-  Create a .env file and copy the content of [.env.example](https://github.com/phanker/NFT-MARKETPLACE/blob/main/nft-market-frontend/.env.example),an then revise the value for properties of .env file. [NEXT_PUBLIC_SERVER_URL](https://github.com/phanker/NFT-MARKETPLACE/blob/main/nft-market-frontend/.env.example#L1) is the url of your Backend server.[NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID](https://github.com/phanker/NFT-MARKETPLACE/blob/main/nft-market-frontend/.env.example#L2) is your projectId of WalletConnect, you should login and get your projectId from [WalletConnect](https://cloud.walletconnect.com/) if you didn't have logined [WalletConnect](https://cloud.walletconnect.com/).
+  Create an .env file and copy the content of [.env.example](https://github.com/phanker/NFT-MARKETPLACE/blob/main/nft-market-frontend/.env.example),an then revise the value for properties of .env file. [NEXT_PUBLIC_SERVER_URL](https://github.com/phanker/NFT-MARKETPLACE/blob/main/nft-market-frontend/.env.example#L1) is the url of your Backend server.[NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID](https://github.com/phanker/NFT-MARKETPLACE/blob/main/nft-market-frontend/.env.example#L2) is your projectId of WalletConnect, you should login and get your projectId from [WalletConnect](https://cloud.walletconnect.com/) if you didn't have logined [WalletConnect](https://cloud.walletconnect.com/).
 
 
 
