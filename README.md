@@ -1,9 +1,9 @@
 # NFT-MARKETPLACE
 Nft Marketplace is a market place for selling nfts. It contains 4 parts.
-1) The first is for selling nfts, you can list your nfts and sell them.
-2) The second is for cancelling, you can cancel your listed items.
-3) The third is for buying, you can buy the nfts anothers listed.
-4) The forth is for withdraw, you can get your proceeds for selling your nft.
+✅ The first is for selling nfts, you can list your nfts and sell them.
+✅ The second is for cancelling, you can cancel your listed items.
+✅ The third is for buying, you can buy the nfts anothers listed.
+✅ The forth is for withdraw, you can get your proceeds for selling your nft.
 
 
 ## Features
