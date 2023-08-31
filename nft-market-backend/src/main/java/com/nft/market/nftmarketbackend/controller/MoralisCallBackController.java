@@ -28,15 +28,27 @@ public class MoralisCallBackController {
 
     @Autowired
     private IMoralisCallBackService moralisCallBackService;
+    private ConcurrentHashMap<String, EventEnum> eventMap = new ConcurrentHashMap<>();
 
     @PostMapping("/receive")
     public Result receive(@RequestBody MoralisCallBackDataDto moralisCallBackDataDto) {
         log.info("Received the events' info :{}", JSON.toJSONString(moralisCallBackDataDto));
-        log.info("Looking up if the log is confirmed :{}",moralisCallBackDataDto.isConfirmed());
-        log.info("Starting to compute then figure out exact event.");
-        List<EventEnum> eventEnums = computeEventType(moralisCallBackDataDto.getLogs());
-        log.info("Get events :{}.", eventEnums);
-        moralisCallBackService.handleEvents(eventEnums, moralisCallBackDataDto);
+        log.info("Finding out if the log is confirmed :{}",moralisCallBackDataDto.isConfirmed());
+        if(!moralisCallBackDataDto.isConfirmed()){
+            log.info("Starting to compute then figure out which kind event it is.");
+            List<EventEnum> eventEnums = computeEventType(moralisCallBackDataDto.getLogs());
+            log.info("Get events :{}.", eventEnums);
+            moralisCallBackService.handleEvents(eventEnums, moralisCallBackDataDto);
+            return Result.ok();
+        }else{
+            /**
+             * Chain	Chain-Id(HEX)	Internal-Transaction-Supported-Note	  Blocks-until-confirmed
+             * ETH	        0x1	                        ✅ YES		                         12
+             * GOERLI	    0x5	                        ✅ YES		                         12
+             * SEPOLIA	  0xaa36a7	                    ✅ YES		                         18
+             */
+            log.info("Transactions was confirmed by multiple blocks!");
+        }
         return Result.ok();
     }
 
@@ -54,7 +66,7 @@ public class MoralisCallBackController {
         return eventEnums;
     }
 
-    ConcurrentHashMap<String, EventEnum> eventMap = new ConcurrentHashMap<>();
+
 
     void initEventMap() {
         List<TypeReference<?>> itemListedParameters = new ArrayList<>();
